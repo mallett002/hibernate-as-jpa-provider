@@ -13,18 +13,28 @@ public class HelloWorldClient {
         EntityManager entityManager = emf.createEntityManager();
         EntityTransaction txn = entityManager.getTransaction();
 
-        try {
-            txn.begin();
+        // For our examples:
+        txn.begin();
 
-            Message msg = new Message("Hello World with Hiberante as JPA Provider");
-            entityManager.persist(msg);
+        Message message1 = entityManager.find(Message.class, 7L); // run sql query
+        Message message2 = entityManager.find(Message.class, 7L); // Does not run sql query ( saved in cache )
 
-            txn.commit();
-        } catch(Exception ex) {
-            if (txn != null) txn.rollback();
-            ex.printStackTrace();
-        } finally {
-            if (entityManager != null) entityManager.close();
-        }
+        txn.commit();
+        entityManager.close();
+
+        // Use a try catch
+//        try {
+//            txn.begin();
+//
+//            Message msg = new Message("Hello World with Hiberante as JPA Provider");
+//            entityManager.persist(msg);
+//
+//            txn.commit();
+//        } catch(Exception ex) {
+//            if (txn != null) txn.rollback();
+//            ex.printStackTrace();
+//        } finally {
+//            if (entityManager != null) entityManager.close();
+//        }
     }
 }
